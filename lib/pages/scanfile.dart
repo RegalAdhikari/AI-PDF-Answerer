@@ -21,7 +21,7 @@ class _ScanFileState extends State<ScanFile> {
     var request = http.MultipartRequest(
       'POST',
       Uri.parse(
-          "https://93ca-2400-1a00-b040-8924-c8c6-4fd8-2ab1-8b29.ngrok-free.app/upload"), // here will go the API's Uri
+          "http://192.168.1.64:4000/upload"), // here will go the API's Uri
     );
     Map<String, String> headers = {"Content-type": "multipart/form-data"};
     request.files.add(
