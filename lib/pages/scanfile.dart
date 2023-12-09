@@ -16,7 +16,7 @@ class _ScanFileState extends State<ScanFile> {
   String? message = "";
   var resJson;
   Map<String, dynamic> data = {};
-  String ama = "hi mom";
+  String ama = "";
   onUploadImage() async {
     var request = http.MultipartRequest(
       'POST',

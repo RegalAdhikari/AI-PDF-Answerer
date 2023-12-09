@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:meropdfmitra/pages/profile.dart';
 import 'package:meropdfmitra/pages/scanfile.dart';
+import 'package:meropdfmitra/pages/uploadpdf.dart';
 
 void main() {
   File? imageFile;
@@ -112,19 +113,19 @@ class MainApp extends StatelessWidget {
                     children: [
                       const Center(
                         child: Icon(
-                          Icons.wifi_off_rounded,
+                          Icons.picture_as_pdf,
                           size: 100,
                         ),
                       ),
                       const Text(
-                        "Seems your'e offline",
+                        "Upload a PDF",
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const Text(
-                        "Reconnect to the internet to see your previously saved questions",
+                        "",
                         style: TextStyle(fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
@@ -132,14 +133,21 @@ class MainApp extends StatelessWidget {
                         height: 20,
                       ),
                       FilledButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => new UploadPDF(),
+                            ),
+                          );
+                        },
                         style: FilledButton.styleFrom(
                             backgroundColor: Colors.black,
                             fixedSize: Size.fromWidth(500),
                             padding: EdgeInsets.all(20),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12))),
-                        child: const Text("Reconnect"),
+                        child: const Text("Upload Now"),
                       )
                     ],
                   ),
