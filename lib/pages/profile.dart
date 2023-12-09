@@ -7,7 +7,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Profile"),
+          title: const Text("Profile"),
           centerTitle: true,
           leading: Center(
             child: IconButton(
@@ -22,7 +22,7 @@ class Profile extends StatelessWidget {
         ),
         body: Container(
           height: 300,
-          margin: EdgeInsets.all(25),
+          margin: const EdgeInsets.all(25),
           color: Colors.blueGrey,
           child: const Column(
             children: [

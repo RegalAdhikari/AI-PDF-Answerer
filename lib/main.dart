@@ -7,9 +7,9 @@ import 'package:meropdfmitra/pages/uploadpdf.dart';
 
 void main() {
   File? imageFile;
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
-    title: 'Your title',
+    title: 'MeroPDFMitra',
     home: MainApp(),
   ));
 }
