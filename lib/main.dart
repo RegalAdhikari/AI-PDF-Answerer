@@ -6,7 +6,7 @@ import 'package:meropdfmitra/pages/scanfile.dart';
 import 'package:meropdfmitra/pages/uploadpdf.dart';
 
 void main() {
-  File? imageFile;
+  //File? imageFile;
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'MeroPDFMitra',
