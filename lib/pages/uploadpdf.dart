@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
 
 class UploadPDF extends StatefulWidget {
   const UploadPDF({super.key});
@@ -7,7 +11,24 @@ class UploadPDF extends StatefulWidget {
   State<UploadPDF> createState() => _UploadPDFState();
 }
 
+File? selectedFile;
+
 class _UploadPDFState extends State<UploadPDF> {
+  Future<void> selectFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (result != null) {
+      setState(() {
+        selectedFile = File(result.files.single.path!);
+      });
+    } else {
+      // User canceled the picker
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,13 +78,20 @@ class _UploadPDFState extends State<UploadPDF> {
             ),
           ),
           onTap: () {
-            print(
-                "Tapped on container"); //Change here: avoid print in production code
+            selectFile(); //Change here: avoid print in production code
           },
         ),
+        SizedBox(height: 20),
+        if (selectedFile != null)
+          Text(
+            'Selected File: ${selectedFile!.path}',
+            textAlign: TextAlign.center,
+          ),
         const Spacer(), //Takes space to but the start conversation button to the bottom
         FilledButton(
-          onPressed: () {},
+          onPressed: () {
+            uploadPDF();
+          },
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll(Colors.black),
               fixedSize: MaterialStatePropertyAll(Size(100, 100))),
@@ -71,5 +99,35 @@ class _UploadPDFState extends State<UploadPDF> {
         )
       ]),
     );
+  }
+}
+
+void uploadPDF() async {
+  Dio dio = Dio();
+
+  // Replace with your Flask server URL
+  String serverUrl = 'https://c707-27-34-101-154.ngrok-free.app/upload';
+
+  File? pdfFile =
+      File(selectedFile.toString()); // Replace with your PDF file path
+
+  String fileName = pdfFile.path.split('/').last; // Extracting file name
+
+  FormData formData = FormData.fromMap({
+    'pdf': await MultipartFile.fromFile(pdfFile.path, filename: fileName),
+  });
+
+  try {
+    Response response = await dio.post(
+      serverUrl,
+      data: formData,
+      options: Options(
+        contentType: 'multipart/form-data',
+      ),
+    );
+
+    print('File uploaded, server response: ${response.data}');
+  } catch (e) {
+    print('Error uploading file: $e');
   }
 }

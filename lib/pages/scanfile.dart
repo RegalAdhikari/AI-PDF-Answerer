@@ -20,8 +20,7 @@ class _ScanFileState extends State<ScanFile> {
   onUploadImage() async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse(
-          "http://192.168.1.64:4000/upload"), // here will go the API's Uri
+      Uri.parse("http://127.0.0.1:4000/upload"), // here will go the API's Uri
     );
     Map<String, String> headers = {"Content-type": "multipart/form-data"};
     request.files.add(

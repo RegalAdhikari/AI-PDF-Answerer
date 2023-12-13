@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:meropdfmitra/pages/filepickerexample.dart';
 import 'package:meropdfmitra/pages/profile.dart';
 import 'package:meropdfmitra/pages/scanfile.dart';
 import 'package:meropdfmitra/pages/uploadpdf.dart';
@@ -137,7 +138,7 @@ class MainApp extends StatelessWidget {
                           Navigator.push(
                             context,
                             new MaterialPageRoute(
-                              builder: (context) => new UploadPDF(),
+                              builder: (context) => new FilePickerExample(),
                             ),
                           );
                         },
