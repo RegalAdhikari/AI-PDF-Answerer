@@ -3,6 +3,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
+import 'package:meropdfmitra/pages/qnasession.dart';
+
 class FilePickerExample extends StatefulWidget {
   @override
   _FilePickerExampleState createState() => _FilePickerExampleState();
@@ -34,7 +36,7 @@ class _FilePickerExampleState extends State<FilePickerExample> {
   Future<void> uploadPDF(File file) async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('https://c707-27-34-101-154.ngrok-free.app/upload'),
+      Uri.parse('http://192.168.1.92:9000/upload'), //Url for uploading PDF
     );
 
     String fileName = file.path.split('/').last;
@@ -98,7 +100,14 @@ class _FilePickerExampleState extends State<FilePickerExample> {
             ),
           const Spacer(),
           FilledButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => new qnasession(),
+                ),
+              );
+            },
             style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(Colors.black),
                 fixedSize: MaterialStatePropertyAll(Size(100, 100))),
