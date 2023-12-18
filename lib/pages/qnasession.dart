@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:chat_bubbles/chat_bubbles.dart';
 
 class qnasession extends StatefulWidget {
   const qnasession({super.key});
