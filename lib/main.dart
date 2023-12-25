@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:meropdfmitra/pages/chatapp.dart';
 import 'package:meropdfmitra/pages/uploadpdef.dart';
 import 'package:meropdfmitra/pages/profile.dart';
 import 'package:meropdfmitra/pages/scanfile.dart';
@@ -88,7 +87,8 @@ class MainApp extends StatelessWidget {
                           Navigator.push(
                             context,
                             new MaterialPageRoute(
-                              builder: (context) => new ScanFile(),
+                              builder: (context) =>
+                                  new ScanFile(), //Scanfile here
                             ),
                           );
                         },

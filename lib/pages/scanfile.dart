@@ -3,6 +3,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:meropdfmitra/pages/chatapp.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path_provider/path_provider.dart';
 
 class ScanFile extends StatefulWidget {
   const ScanFile({super.key});
@@ -20,7 +23,8 @@ class _ScanFileState extends State<ScanFile> {
   onUploadImage() async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse("http://127.0.0.1:4000/upload"), // here will go the API's Uri
+      Uri.parse(
+          "http://192.168.1.78:4000/uploadimage"), // here will go the API's Uri This is for image
     );
     Map<String, String> headers = {"Content-type": "multipart/form-data"};
     request.files.add(
@@ -42,6 +46,53 @@ class _ScanFileState extends State<ScanFile> {
       print(data);
       ama = resJson.toString();
     });
+  }
+
+  Future<void> uploadPDF(File file) async {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('http://192.168.1.78:9000/upload'), //Url for uploading PDF
+    );
+
+    String fileName = file.path.split('/').last;
+
+    request.files.add(
+      http.MultipartFile(
+        'pdf',
+        file.openRead(),
+        await file.length(),
+        filename: fileName,
+      ),
+    );
+
+    try {
+      var response = await http.Response.fromStream(await request.send());
+
+      if (response.statusCode == 200) {
+        print('File uploaded, server response: ${response.body}');
+      } else {
+        print('Error uploading file. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
+
+  Future<void> makepdf() async {
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) => pw.Center(
+          child: pw.Text(ama),
+        ),
+      ),
+    );
+
+    final directory = await getExternalStorageDirectory();
+    final file = File("${directory?.path}/example.pdf");
+    print(directory);
+    uploadPDF(file);
+    await file.writeAsBytes(await pdf.save());
   }
 
   @override
@@ -100,7 +151,9 @@ class _ScanFileState extends State<ScanFile> {
                           backgroundColor:
                               MaterialStatePropertyAll<Color>(Colors.black),
                         ),
-                        onPressed: () => getImage(source: ImageSource.camera),
+                        onPressed: () {
+                          getImage(source: ImageSource.camera);
+                        },
                         icon: Icon(Icons.camera_alt),
                         label: Text("Take a picture"))
                   ],
@@ -108,12 +161,33 @@ class _ScanFileState extends State<ScanFile> {
               ),
               ElevatedButton.icon(
                   style: const ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll<Color>(Colors.black),
+                  ),
+                  onPressed: () {
+                    onUploadImage();
+                  },
+                  icon: Icon(Icons.file_copy),
+                  label: Text("Convert to text")),
+              ElevatedButton.icon(
+                  style: const ButtonStyle(
                       backgroundColor:
                           MaterialStatePropertyAll<Color>(Colors.black),
                       padding: MaterialStatePropertyAll(EdgeInsets.all(10))),
-                  onPressed: onUploadImage,
+                  onPressed: () {
+                    makepdf();
+
+                    Future.delayed(Duration(seconds: 5), () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new QnaChat(),
+                        ),
+                      );
+                    });
+                  },
                   icon: Icon(Icons.text_rotation_none),
-                  label: Text("Convert to Text")),
+                  label: Text("Convert to PDF and Chat")),
               Text(ama)
             ],
           ),
