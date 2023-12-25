@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:chat_bubbles/chat_bubbles.dart';
 
 class qnasession extends StatefulWidget {
   const qnasession({super.key});
@@ -19,7 +18,7 @@ class _qnasessionState extends State<qnasession> {
 
     final response = await http.post(
       Uri.parse(
-          'http://192.168.1.92:9000/ask_question'), // Gotta replace this when I deploy this to heroki
+          'http://192.168.1.78:9000/ask_question'), // Gotta replace this when I deploy this to heroki
       headers: <String, String>{
         'Content-Type': 'application/json',
       },

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:meropdfmitra/pages/chatapp.dart';
 import 'package:meropdfmitra/pages/uploadpdef.dart';
@@ -90,7 +88,7 @@ class MainApp extends StatelessWidget {
                             context,
                             new MaterialPageRoute(
                               builder: (context) =>
-                                  new QnaChat(), //Scanfile here
+                                  new ScanFile(), //Scanfile here
                             ),
                           );
                         },

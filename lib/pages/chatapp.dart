@@ -3,8 +3,6 @@ import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:meropdfmitra/pages/askquestiontest.dart';
-
 void main() {
   runApp(QnaChat());
 }
@@ -16,38 +14,17 @@ class QnaChat extends StatefulWidget {
   State<QnaChat> createState() => _QnaChatState();
 }
 
+String answer = 'Your answer will show here.';
+final TextEditingController _textController = TextEditingController();
+
 class _QnaChatState extends State<QnaChat> {
-  TextEditingController _controller = TextEditingController();
-  String answer = 'Your answer will show here.';
-
-  Future<void> askQuestion() async {
-    String question = _controller.text;
-
-    final response = await http.post(
-      Uri.parse(
-          'http://192.168.1.92:9000/ask_question'), // Gotta replace this when I deploy this to heroki
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({'question': question}),
-    );
-
-    if (response.statusCode == 200) {
-      setState(() {
-        answer = jsonDecode(response.body)['result'];
-        print(answer);
-      });
-    } else {
-      setState(() {
-        answer = 'Error: ${response.statusCode}';
-      });
-    }
-  }
+  // TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Chat UI',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -83,19 +60,43 @@ class _ChatWidgetState extends State<ChatWidget> {
     Message(false, 'Hello! Ask me a question about your pdf', 0xFF081509),
   ];
 
-  final TextEditingController _textController = TextEditingController();
+  //final TextEditingController _textController = TextEditingController();
 
   void _handleSubmitted(String text) {
     _textController.clear();
     setState(() {
       _messages.insert(0, Message(true, text, 0xFF1B97F3));
     });
-    setState(() {
-      _messages.insert(
-          0,
-          Message(false, 'Im doing work here. Ask me later',
-              0xFF081509)); // esma answer lyaunuparyo
+    Future.delayed(Duration(seconds: 8), () {
+      setState(() {
+        _messages.insert(
+            0, Message(false, answer, 0xFF081509)); // esma answer lyaunuparyo
+      });
     });
+  }
+
+  Future<void> askQuestion() async {
+    String question = _textController.text;
+
+    final response = await http.post(
+      Uri.parse(
+          'http://192.168.1.78:9000/ask_question'), // Gotta replace this when I deploy this to heroki
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({'question': question}),
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        answer = jsonDecode(response.body)['result'];
+        print(answer);
+      });
+    } else {
+      setState(() {
+        answer = 'Error: ${response.statusCode}';
+      });
+    }
   }
 
   @override
@@ -147,7 +148,8 @@ class _ChatWidgetState extends State<ChatWidget> {
             IconButton(
                 icon: Icon(Icons.send),
                 onPressed: () {
-                  AskQuestion();
+                  askQuestion();
+
                   _handleSubmitted(_textController.text);
                 }),
           ],
