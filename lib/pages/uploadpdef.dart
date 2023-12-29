@@ -35,7 +35,7 @@ class _FilePickerExampleState extends State<FilePickerExample> {
   Future<void> uploadPDF(File file) async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://192.168.1.78:9000/upload'), //Url for uploading PDF
+      Uri.parse('http://192.168.1.75:9000/upload'), //Url for uploading PDF
     );
 
     String fileName = file.path.split('/').last;
@@ -103,7 +103,7 @@ class _FilePickerExampleState extends State<FilePickerExample> {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                  builder: (context) => new QnaChat(),
+                  builder: (context) => new ChatScreen(),
                 ),
               );
             },
