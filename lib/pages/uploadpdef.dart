@@ -35,7 +35,7 @@ class _FilePickerExampleState extends State<FilePickerExample> {
   Future<void> uploadPDF(File file) async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://192.168.28.120:9000/upload'), //Url for uploading PDF
+      Uri.parse('http://192.168.192.120:9000/upload'), //Url for uploading PDF
     );
 
     String fileName = file.path.split('/').last;
