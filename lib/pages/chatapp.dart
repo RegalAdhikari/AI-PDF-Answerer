@@ -80,7 +80,7 @@ class _ChatWidgetState extends State<ChatWidget> {
     print('this is running');
     final response = await http.post(
       Uri.parse(
-          'http://192.168.1.75:9000/ask_question'), // Gotta replace this when I deploy this to heroki
+          'http://192.168.192.120:9000/ask_question'), // Gotta replace this when I deploy this to heroki
       headers: <String, String>{
         'Content-Type': 'application/json',
       },

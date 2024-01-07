@@ -24,7 +24,7 @@ class _ScanFileState extends State<ScanFile> {
     var request = http.MultipartRequest(
       'POST',
       Uri.parse(
-          "http://192.168.1.75:4000/uploadimage"), // here will go the API's Uri This is for image
+          "http://192.168.192.120:4000/uploadimage"), // here will go the API's Uri This is for image
     );
     Map<String, String> headers = {"Content-type": "multipart/form-data"};
     request.files.add(
@@ -51,7 +51,7 @@ class _ScanFileState extends State<ScanFile> {
   Future<void> uploadPDF(File file) async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://192.168.1.75:9000/upload'), //Url for uploading PDF
+      Uri.parse('http://192.168.192.120:9000/upload'), //Url for uploading PDF
     );
 
     String fileName = file.path.split('/').last;
